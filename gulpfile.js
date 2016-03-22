@@ -92,7 +92,7 @@ gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 // Build Production Files, the Default Task
 gulp.task('default', ['clean'], function (cb) {
-	runSequence(['styles', 'copy'], ['jshint', 'html', 'images'], cb);
+	runSequence(['styles', 'copy'], ['jshint', 'html', 'images'], 'make-service-worker',cb);
 });
 
 // Run PageSpeed Insights
@@ -105,6 +105,31 @@ gulp.task('pagespeed', pagespeed.bind(null, {
 	url: 'https://todomvc.com',
 	strategy: 'mobile'
 }));
+
+gulp.task('make-service-worker', function () {
+	var path = require('path');
+	var swPrecache = require('sw-precache');
+	var rootDir = 'dist/';
+
+	swPrecache.write(path.join(rootDir, 'serviceworker.js'), {
+		//staticFileGlobs: [rootDir + '/*.{js,html,css,png,jpg,gif}', rootDir + '/media/*.{jpg,png,ai,svg}'],
+		staticFileGlobs: [
+			rootDir + '{bower_components,site-assets}/**/*.{js,html,css,png,jpg,gif}',
+			rootDir + '*.{js,html,css,png,jpg,gif}'
+		],
+		stripPrefix: rootDir,
+		runtimeCaching: [{
+			urlPattern: /\/examples\/(\w+\/)*[\w\.]+.(js|html|css|png|jpg|gif|md|json)$/,
+			handler: 'fastest',
+			options: {
+				cache: {
+					maxEntries: 10,
+					name: 'examples-cache'
+				}
+			}
+		}]
+	});
+});
 
 gulp.task('serve', function (cb) {
 	app.listen(8080, cb);
