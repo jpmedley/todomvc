@@ -57,5 +57,14 @@
 		<script src="node_modules/handlebars/dist/handlebars.js"></script>
 		<script src="node_modules/director/build/director.js"></script>
 		<script src="js/app.js"></script>
+		<script>
+		  if ('serviceWorker' in navigator) {
+		    console.log("Will the service worker register?");
+		    navigator.serviceWorker.register('/service-worker.js').then(function(reg){
+		      console.log("Yes it did.");
+		    }).catch(function(err) {
+		      console.log("No it didn't. This happened: ", err)
+		    });
+		  }
 	</body>
 </html>

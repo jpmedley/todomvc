@@ -46,7 +46,8 @@ gulp.task('copy', function () {
 		'learn.json',
 		'CNAME',
 		'.nojekyll',
-		'site-assets/favicon.ico'
+		'site-assets/favicon.ico',
+		'site-assets/sw-loader.js'
 	], {
 		dot: true,
 		base: './'
@@ -111,20 +112,32 @@ gulp.task('make-service-worker', function () {
 	var swPrecache = require('sw-precache');
 	var rootDir = 'dist/';
 
-	swPrecache.write(path.join(rootDir, 'serviceworker.js'), {
-		//staticFileGlobs: [rootDir + '/*.{js,html,css,png,jpg,gif}', rootDir + '/media/*.{jpg,png,ai,svg}'],
+	swPrecache.write('service-worker.js', {
 		staticFileGlobs: [
-			rootDir + '{bower_components,site-assets}/**/*.{js,html,css,png,jpg,gif}',
-			rootDir + '*.{js,html,css,png,jpg,gif}'
+			//rootDir + '{bower_components,site-assets}/**/*.{js,html,css,png,jpg,gif,ico}',
+			rootDir + 'site-assets/*.{js,html,css,png,jpg,gif,ico,svg}',
+			rootDir + 'bower_components/bootstrap/dist/css/*.{css,map}',
+			rootDir + 'bower_components/bootstrap/dist/fonts/*.{eot,svg,ttf,woff}',
+			rootDir + 'bower_components/bootstrap/dist/js/*.js',
+			rootDir + 'bower_components/font-roboto/roboto.html',
+			rootDir + 'bower_components/jquery/dist/*.{js,map}',
+			rootDir + 'bower_components/iron-*/*.{json,js,html,svg,css}',
+			rootDir + 'bower_components/paper-*/*.{json,js,html,svg,css}',
+			rootDir + 'bower_components/polymer/*.html',
+			rootDir + 'bower_components/prefixfree/*.js',
+			rootDir + 'bower_components/webcomponentsjs/*.js'
+			//rootDir + '*.{js,html,css,png,jpg,gif}'
 		],
 		stripPrefix: rootDir,
 		runtimeCaching: [{
-			urlPattern: /\/examples\/(\w+\/)*[\w\.]+.(js|html|css|png|jpg|gif|md|json)$/,
+			//urlPattern: /\/examples\/(\w+\/)*[\w\.]+.(js|html|css|png|jpg|gif|md|json)$/,
+			//urlPattern: /http:\/\/localhost:8080\/examples\/jquery\/index\.html/,
+			urlPattern: /localhost:8080\/examples\/jquery\//,
 			handler: 'fastest',
 			options: {
 				cache: {
-					maxEntries: 10,
-					name: 'examples-cache'
+					maxEntries: 100,
+					name: 'examples-v2'
 				}
 			}
 		}]
