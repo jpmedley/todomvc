@@ -3,3 +3,7 @@
 /dist
 /tooling/node_modules
 .DS_Store
+# Files used for current testing. Remove later.
+out.html
+pail.med
+test.js
