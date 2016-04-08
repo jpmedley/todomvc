@@ -1,0 +1,32 @@
+{
+  "short_name": "TodoMVC",
+  "name": "Helping you select an MV* framework",
+  "icons": [
+    {
+      "src":"logo.svg",
+      "sizes": "36x36"
+    },
+    {
+      "src":"logo.svg",
+      "sizes": "48x48"
+    },
+    {
+      "src":"logo.svg",
+      "sizes": "72x72"
+    },
+    {
+      "src":"logo.svg",
+      "sizes": "96x96"
+    },
+    {
+      "src":"logo.svg",
+      "sizes": "144x144"
+    },
+    {
+      "src":"logo.svg",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "/?homescreen=1",
+  "background_color": "#ffffff"
+}
