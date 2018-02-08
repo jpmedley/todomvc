@@ -28,15 +28,22 @@ Insert.prototype._transform = function transform(data, encoding, cb) {
 	// console.log(res);
 
 	var htmlFile = data.toString('UTF-8');
-	//console.log(htmlFile);
+	console.log("Inside inserter.");
 	var transObj = this;
 	jsdom.env(
-		htmlFile,
-		['site-assets/sw-loader.js'],
+		'htmlFile',
+		'site-assets/sw-loader.js',
 		function (err, window) {
-			console.log("err: ", err);
-			console.log("window: ", window);
+			//console.log("err: ", err);
+			//console.log("window: ", window);
+			for (var prop in window) {
+				if (window.hasOwnProperty(prop)) {
+					console.log(prop);
+				}
+			}
+			console.log(window.Text.call(window));
 			transObj.htmlFile = window;
+			window.close();
 		}
 	);
 
