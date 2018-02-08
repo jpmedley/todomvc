@@ -50,4 +50,3 @@ Insert.prototype._transform = function transform(data, encoding, cb) {
 	this.push(htmlFile);
 	cb();
 }
-
